@@ -1,0 +1,19 @@
+{
+  "checks": [
+    {"name":"index.html JavaScript syntax","status":"PASS","detail":"Previously checked in the release QA pass"},
+    {"name":"quote.html JavaScript syntax","status":"PASS","detail":"Previously checked in the release QA pass"},
+    {"name":"Row-level security declarations","status":"PASS","detail":"Nine application tables declare RLS"},
+    {"name":"Cross-business customer/quote relationship constraint","status":"PASS","detail":"Composite business_id + customer_id foreign key"},
+    {"name":"Service-role key absent from browser app","status":"PASS","detail":"Browser code uses only the public key pattern"},
+    {"name":"Supabase Edge Function entrypoints","status":"PASS","detail":"Three source entrypoints are present in the release archive"},
+    {"name":"Public-link token and endpoint configuration","status":"PASS","detail":"Source-level checks only"}
+  ],
+  "github": {
+    "repository_access": "CONNECTED",
+    "push_test": "PASS",
+    "verified_commit": "eaefc27766b06c0a5183b41a7442f16116275f68",
+    "note": "README update was committed and verified; full application source upload is still pending."
+  },
+  "live_tests": "NOT RUN: Supabase migration and Edge Functions have not been deployed to the live project.",
+  "production_status": "NOT READY"
+}
