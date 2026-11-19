@@ -114,3 +114,10 @@ alter table public.quotes add column if not exists cost_total numeric(12,2) not 
 alter table public.quotes add column if not exists profit_total numeric(12,2) not null default 0;
 alter table public.quotes add column if not exists internal_note text;
 alter table public.quote_items add column if not exists unit_cost numeric(12,2) not null default 0 check (unit_cost >= 0);
+
+-- Enable cross-device live refresh for the app's primary workspace tables.
+do $$ begin
+  if not exists (select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='customers') then alter publication supabase_realtime add table public.customers; end if;
+  if not exists (select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='services') then alter publication supabase_realtime add table public.services; end if;
+  if not exists (select 1 from pg_publication_tables where pubname='supabase_realtime' and schemaname='public' and tablename='quotes') then alter publication supabase_realtime add table public.quotes; end if;
+end $$;
