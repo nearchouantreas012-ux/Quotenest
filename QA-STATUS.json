@@ -1,53 +1,48 @@
 {
   "source_package": "integrated V6-V8",
-  "github_source_files": [
+  "verified_repository": "https://github.com/nearchouantreas012-ux/Quotenest",
+  "source_files": [
     "index.html",
     "quote.html",
+    "README.md",
     "supabase/config.toml",
     "supabase/migrations/0001_quotenest_cloud.sql",
     "supabase/functions/_shared.ts",
     "supabase/functions/create-public-quote-link/index.ts",
     "supabase/functions/public-quote/index.ts",
     "supabase/functions/respond-to-quote/index.ts",
-    "README.md"
+    "scripts/check.mjs",
+    ".github/workflows/ci.yml"
   ],
-  "checks": [
+  "source_checks": [
     {
-      "name": "Main app JavaScript syntax",
-      "status": "PASS",
-      "detail": "Parsed successfully after upload; quote totals live recalculation patched."
+      "name": "index.html inline JavaScript syntax",
+      "status": "PASS"
     },
     {
-      "name": "Customer quote page JavaScript syntax",
-      "status": "PASS",
-      "detail": "Parsed successfully after upload."
+      "name": "quote.html inline JavaScript syntax",
+      "status": "PASS"
     },
     {
-      "name": "Supabase migration source",
-      "status": "PRESENT",
-      "detail": "Nine application tables and RLS policies included; not applied to live project."
+      "name": "RLS enabled on all nine application tables",
+      "status": "PASS"
     },
     {
-      "name": "Edge Function source",
-      "status": "PRESENT",
-      "detail": "Three function entrypoints and shared helpers included; not deployed."
+      "name": "quote_public_links revoked from anon and authenticated",
+      "status": "PASS"
     },
     {
-      "name": "Browser app cloud authentication/sync",
-      "status": "NOT IMPLEMENTED",
-      "detail": "Current index.html is a local-first browser app; cloud integration is not yet wired into its settings UI."
+      "name": "No literal service-role key assignment in browser app",
+      "status": "PASS"
     },
     {
-      "name": "Customer online quote link flow",
-      "status": "NOT LIVE",
-      "detail": "Backend function sources exist, but public URL hosting/configuration and live deployment remain."
-    },
-    {
-      "name": "Payments",
-      "status": "DISABLED",
-      "detail": "No checkout or payment collection."
+      "name": "All three Edge Function entrypoints and shared helper file present",
+      "status": "PASS"
     }
   ],
-  "live_tests": "NOT RUN: Supabase migration and Edge Functions have not been deployed or tested against the project.",
+  "github_actions": "Workflow committed. No workflow run is visible yet, so CI execution is not verified.",
+  "cloud_integration": "NOT COMPLETE: browser app currently stores data locally; Supabase authentication and cloud sync are not wired into the UI.",
+  "live_backend": "NOT DEPLOYED: migration not applied; Edge Functions not deployed; public quote URLs not live.",
+  "billing": "DISABLED",
   "production_status": "NOT READY"
 }
