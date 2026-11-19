@@ -38,11 +38,26 @@
     {
       "name": "All three Edge Function entrypoints and shared helper file present",
       "status": "PASS"
+    },
+    {
+      "name": "Supabase sign-in and sign-up UI",
+      "status": "PASS",
+      "detail": "Email/password auth wired to Supabase JS v2; runtime auth not yet tested against project"
+    },
+    {
+      "name": "Business-scoped customer/service/quote sync",
+      "status": "PASS",
+      "detail": "Source integration committed; runtime sync awaits migration and publishable key"
+    },
+    {
+      "name": "Cross-device realtime subscriptions",
+      "status": "PASS",
+      "detail": "Client subscriptions and publication migration included; live delivery not yet tested"
     }
   ],
   "github_actions": "Workflow committed. No workflow run is visible yet, so CI execution is not verified.",
-  "cloud_integration": "NOT COMPLETE: browser app currently stores data locally; Supabase authentication and cloud sync are not wired into the UI.",
-  "live_backend": "NOT DEPLOYED: migration not applied; Edge Functions not deployed; public quote URLs not live.",
+  "cloud_integration": "SOURCE INTEGRATED: Supabase email/password authentication, workspace bootstrap, cloud data sync, and realtime subscriptions are committed. Runtime connection awaits applying the SQL migration and entering the project's publishable key in the app.",
+  "live_backend": "NOT LIVE: SQL migration not yet applied; Edge Functions not deployed; hosted-app auth redirects and live RLS tests remain pending.",
   "billing": "DISABLED",
-  "production_status": "NOT READY"
+  "production_status": "NOT READY — awaiting Supabase setup and live security/end-to-end testing."
 }
