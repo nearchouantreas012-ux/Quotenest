@@ -1,0 +1,8 @@
+import {adminClient,corsHeaders,json,hashToken,isHexToken,isActiveLink} from "../_shared.ts";
+Deno.serve(async req=>{if(req.method==="OPTIONS")return new Response("ok",{headers:corsHeaders});if(req.method!=="POST")return json({error:"Method not allowed."},405);try{
+const body=await req.json().catch(()=>({})),token=body?.token,decision=body?.decision,comment=typeof body?.comment==="string"?body.comment.slice(0,2000):"";
+if(!isHexToken(token))return json({error:"This quote link is invalid."},404);if(!["Approved","Declined"].includes(decision))return json({error:"Decision must be Approved or Declined."},400);
+const admin=adminClient(),tokenHash=await hashToken(token);const {data:link,error:le}=await admin.from("quote_public_links").select("quote_id,expires_at,revoked_at").eq("token_hash",tokenHash).maybeSingle();if(le)throw le;if(!isActiveLink(link))return json({error:"This quote link has expired or is unavailable."},410);
+const {data:updated,error:ue}=await admin.from("quotes").update({status:decision,customer_comment:comment||null,updated_at:new Date().toISOString()}).eq("id",link.quote_id).eq("status","Sent").select("id,status").maybeSingle();if(ue)throw ue;if(!updated)return json({error:"This quote has already received a response."},409);
+await admin.from("quote_events").insert({quote_id:link.quote_id,event_type:decision==="Approved"?"approved":"declined"});await admin.from("quote_public_links").update({revoked_at:new Date().toISOString()}).eq("quote_id",link.quote_id).is("revoked_at",null);return json({success:true,status:decision});
+}catch(e){console.error("respond-to-quote",e);return json({error:"Unable to record this response."},500)}});
