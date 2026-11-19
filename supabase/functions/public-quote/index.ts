@@ -1,0 +1,7 @@
+import {adminClient,corsHeaders,json,hashToken,isHexToken,isActiveLink} from "../_shared.ts";
+Deno.serve(async req=>{if(req.method==="OPTIONS")return new Response("ok",{headers:corsHeaders});if(req.method!=="GET")return json({error:"Method not allowed."},405);try{
+const token=new URL(req.url).searchParams.get("token");if(!isHexToken(token))return json({error:"This quote link is invalid."},404);
+const admin=adminClient();const {data:link,error:le}=await admin.from("quote_public_links").select("quote_id,expires_at,revoked_at").eq("token_hash",await hashToken(token)).maybeSingle();if(le)throw le;if(!isActiveLink(link))return json({error:"This quote link has expired or is unavailable."},410);
+const {data:quote,error:qe}=await admin.from("quotes").select("id,title,status,currency,subtotal,tax_total,total,created_at,businesses(name),quote_items(description,quantity,unit,unit_price,line_total)").eq("id",link.quote_id).maybeSingle();if(qe)throw qe;if(!quote||quote.status!=="Sent")return json({error:"This quote is no longer awaiting a response."},410);
+await admin.from("quote_events").insert({quote_id:quote.id,event_type:"viewed"});return json({quote});
+}catch(e){console.error("public-quote",e);return json({error:"Unable to load this quote."},500)}});
