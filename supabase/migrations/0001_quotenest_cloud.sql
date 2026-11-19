@@ -106,3 +106,11 @@ create policy "admins create initial subscription" on public.subscriptions for i
 revoke all on public.quote_public_links from anon,authenticated;
 revoke all on public.subscriptions from anon,authenticated;
 grant select on public.subscriptions to authenticated;
+
+-- Fields needed by the QuoteNest browser app's cloud sync.
+alter table public.services add column if not exists estimated_cost numeric(12,2) not null default 0 check (estimated_cost >= 0);
+alter table public.quotes add column if not exists quote_date date not null default current_date;
+alter table public.quotes add column if not exists cost_total numeric(12,2) not null default 0 check (cost_total >= 0);
+alter table public.quotes add column if not exists profit_total numeric(12,2) not null default 0;
+alter table public.quotes add column if not exists internal_note text;
+alter table public.quote_items add column if not exists unit_cost numeric(12,2) not null default 0 check (unit_cost >= 0);
