@@ -1,0 +1,8 @@
+[functions.create-public-quote-link]
+verify_jwt = true
+
+[functions.public-quote]
+verify_jwt = false
+
+[functions.respond-to-quote]
+verify_jwt = false
