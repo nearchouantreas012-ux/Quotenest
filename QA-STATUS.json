@@ -56,8 +56,9 @@
     }
   ],
   "github_actions": "Workflow committed. No workflow run is visible yet, so CI execution is not verified.",
-  "cloud_integration": "SOURCE INTEGRATED: Supabase email/password authentication, workspace bootstrap, cloud data sync, and realtime subscriptions are committed. Runtime connection awaits applying the SQL migration and entering the project's publishable key in the app.",
-  "live_backend": "NOT LIVE: SQL migration not yet applied; Edge Functions not deployed; hosted-app auth redirects and live RLS tests remain pending.",
+  "cloud_integration": "SOURCE INTEGRATED: Supabase email/password authentication, workspace bootstrap, cloud data sync, and realtime subscriptions are committed. Runtime connection still requires the publishable key in the hosted app and live verification.",
+  "live_backend": "PARTIALLY CONFIGURED: User reports the SQL migration was successfully applied. Edge Functions deployment, hosted-app auth redirects, publishable-key configuration, and live RLS/end-to-end tests remain pending.",
   "billing": "DISABLED",
-  "production_status": "NOT READY — awaiting Supabase setup and live security/end-to-end testing."
+  "production_status": "NOT READY — awaiting Edge Functions deployment, hosted-app configuration, and live security/end-to-end testing.",
+  "supabase_migration": "USER REPORTED APPLIED — not independently verified by repository integration."
 }
